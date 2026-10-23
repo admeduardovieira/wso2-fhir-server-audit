@@ -569,6 +569,9 @@ func (s *Store) conditionalMatch(ctx context.Context, resourceType, rawQuery str
 	if perr != nil {
 		return "", 0, perr
 	}
+	if len(q) == 0 {
+		return "", 0, fmt.Errorf("invalid If-None-Exist: empty query")
+	}
 	result, serr := s.Search(ctx, SearchParams{ResourceType: resourceType, Params: valuesToMap(q), PageSize: 2, Total: "none"})
 	if serr != nil {
 		return "", 0, serr
